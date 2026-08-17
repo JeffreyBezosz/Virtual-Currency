@@ -7,9 +7,13 @@ require_once dirname(__DIR__) . '/app/User.php';
 
 $email = '';
 $error = '';
-$isLoggedIn = isset($_SESSION['user_id']);
 
-if (!$isLoggedIn && ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+if (isset($_SESSION['user_id'])) {
+    header('Location: dashboard.php');
+    exit;
+}
+
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     $email = strtolower(trim($_POST['email'] ?? ''));
     $password = $_POST['password'] ?? '';
 
@@ -38,7 +42,7 @@ if (!$isLoggedIn && ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
                     session_regenerate_id(true);
                     $_SESSION['user_id'] = $user->getId();
 
-                    header('Location: login.php');
+                    header('Location: dashboard.php');
                     exit;
                 }
 
@@ -61,41 +65,37 @@ if (!$isLoggedIn && ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     <main>
         <h1>Inloggen</h1>
 
-        <?php if ($isLoggedIn): ?>
-            <p>Je bent ingelogd.</p>
-        <?php else: ?>
-            <?php if ($error !== ''): ?>
-                <p><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></p>
-            <?php endif; ?>
-
-            <form method="post">
-                <div>
-                    <label for="email">E-mailadres</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value="<?= htmlspecialchars($email, ENT_QUOTES, 'UTF-8') ?>"
-                        autocomplete="email"
-                        maxlength="255"
-                        required
-                    >
-                </div>
-
-                <div>
-                    <label for="password">Wachtwoord</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        autocomplete="current-password"
-                        required
-                    >
-                </div>
-
-                <button type="submit">Inloggen</button>
-            </form>
+        <?php if ($error !== ''): ?>
+            <p><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></p>
         <?php endif; ?>
+
+        <form method="post">
+            <div>
+                <label for="email">E-mailadres</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value="<?= htmlspecialchars($email, ENT_QUOTES, 'UTF-8') ?>"
+                    autocomplete="email"
+                    maxlength="255"
+                    required
+                >
+            </div>
+
+            <div>
+                <label for="password">Wachtwoord</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    autocomplete="current-password"
+                    required
+                >
+            </div>
+
+            <button type="submit">Inloggen</button>
+        </form>
     </main>
 </body>
 </html>
