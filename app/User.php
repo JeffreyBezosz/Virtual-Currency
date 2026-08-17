@@ -16,6 +16,41 @@ class User
         $this->connection = $connection;
     }
 
+    public function emailExists(string $email): bool
+    {
+        $statement = $this->connection->prepare(
+            'SELECT id FROM users WHERE email = :email LIMIT 1'
+        );
+
+        $statement->execute([
+            'email' => $email,
+        ]);
+
+        return $statement->fetchColumn() !== false;
+    }
+
+    public function create(): bool
+    {
+        $statement = $this->connection->prepare(
+            'INSERT INTO users (first_name, last_name, email, password, balance)
+             VALUES (:first_name, :last_name, :email, :password, :balance)'
+        );
+
+        $created = $statement->execute([
+            'first_name' => $this->firstName,
+            'last_name' => $this->lastName,
+            'email' => $this->email,
+            'password' => $this->passwordHash,
+            'balance' => $this->balance,
+        ]);
+
+        if ($created) {
+            $this->id = (int) $this->connection->lastInsertId();
+        }
+
+        return $created;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
