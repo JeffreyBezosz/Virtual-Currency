@@ -29,6 +29,36 @@ class User
         return $statement->fetchColumn() !== false;
     }
 
+    public function findByEmail(string $email): bool
+    {
+        $statement = $this->connection->prepare(
+            'SELECT id, first_name, last_name, email, password, balance, created_at
+             FROM users
+             WHERE email = :email
+             LIMIT 1'
+        );
+
+        $statement->execute([
+            'email' => $email,
+        ]);
+
+        $userData = $statement->fetch();
+
+        if ($userData === false) {
+            return false;
+        }
+
+        $this->id = (int) $userData['id'];
+        $this->firstName = $userData['first_name'];
+        $this->lastName = $userData['last_name'];
+        $this->email = $userData['email'];
+        $this->passwordHash = $userData['password'];
+        $this->balance = (int) $userData['balance'];
+        $this->createdAt = $userData['created_at'];
+
+        return true;
+    }
+
     public function create(): bool
     {
         $statement = $this->connection->prepare(
