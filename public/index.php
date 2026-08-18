@@ -1,8 +1,13 @@
 <?php
 
-session_start();
+require_once dirname(__DIR__) . '/app/session.php';
+
+startSecureSession();
+
+require_once dirname(__DIR__) . '/app/csrf.php';
 
 $isLoggedIn = isset($_SESSION['user_id']);
+$csrfToken = $isLoggedIn ? getCsrfToken() : '';
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -21,7 +26,14 @@ $isLoggedIn = isset($_SESSION['user_id']);
                 <a href="dashboard.php">Dashboard</a>
                 <a href="transfer.php">Tokens sturen</a>
                 <a href="transactions.php">Mijn transacties</a>
-                <a href="logout.php">Uitloggen</a>
+                <form method="post" action="logout.php">
+                    <input
+                        type="hidden"
+                        name="csrf_token"
+                        value="<?= htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8') ?>"
+                    >
+                    <button type="submit">Uitloggen</button>
+                </form>
             </nav>
         <?php else: ?>
             <nav>

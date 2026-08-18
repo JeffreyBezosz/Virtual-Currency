@@ -1,6 +1,8 @@
 <?php
 
-session_start();
+require_once dirname(__DIR__) . '/app/session.php';
+
+startSecureSession();
 
 require_once dirname(__DIR__) . '/app/Database.php';
 require_once dirname(__DIR__) . '/app/User.php';

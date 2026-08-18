@@ -1,6 +1,21 @@
 <?php
 
-session_start();
+require_once dirname(__DIR__) . '/app/session.php';
+
+startSecureSession();
+
+require_once dirname(__DIR__) . '/app/csrf.php';
+
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
+    http_response_code(405);
+    header('Allow: POST');
+    exit('Uitloggen moet via het formulier gebeuren.');
+}
+
+if (!isValidCsrfToken($_POST['csrf_token'] ?? null)) {
+    http_response_code(403);
+    exit('De aanvraag is niet geldig.');
+}
 
 $_SESSION = [];
 

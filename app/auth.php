@@ -1,10 +1,10 @@
 <?php
 
+require_once __DIR__ . '/session.php';
+
 function requireLogin(): void
 {
-    if (session_status() !== PHP_SESSION_ACTIVE) {
-        session_start();
-    }
+    startSecureSession();
 
     if (!isset($_SESSION['user_id'])) {
         header('Location: login.php');

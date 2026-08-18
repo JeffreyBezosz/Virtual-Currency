@@ -1,11 +1,13 @@
 <?php
 
 require_once dirname(__DIR__) . '/app/auth.php';
+require_once dirname(__DIR__) . '/app/csrf.php';
 require_once dirname(__DIR__) . '/app/Database.php';
 require_once dirname(__DIR__) . '/app/User.php';
 
 requireLogin();
 
+$csrfToken = getCsrfToken();
 $balance = null;
 $error = '';
 $configPath = dirname(__DIR__) . '/config.php';
@@ -56,7 +58,14 @@ if (!file_exists($configPath)) {
 
         <a href="transfer.php">Tokens sturen</a>
         <a href="transactions.php">Mijn transacties</a>
-        <a href="logout.php">Uitloggen</a>
+        <form method="post" action="logout.php">
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="<?= htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8') ?>"
+            >
+            <button type="submit">Uitloggen</button>
+        </form>
         <a href="index.php">Startpagina</a>
     </main>
 </body>

@@ -1,6 +1,10 @@
 <?php
 
-session_start();
+$projectPath = dirname(__DIR__, 2);
+
+require_once $projectPath . '/app/session.php';
+
+startSecureSession();
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -17,7 +21,6 @@ if (strlen($query) < 2) {
     exit;
 }
 
-$projectPath = dirname(__DIR__, 2);
 $configPath = $projectPath . '/config.php';
 
 if (!file_exists($configPath)) {

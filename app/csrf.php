@@ -1,10 +1,10 @@
 <?php
 
+require_once __DIR__ . '/session.php';
+
 function getCsrfToken(): string
 {
-    if (session_status() !== PHP_SESSION_ACTIVE) {
-        session_start();
-    }
+    startSecureSession();
 
     if (!isset($_SESSION['csrf_token']) || !is_string($_SESSION['csrf_token'])) {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
