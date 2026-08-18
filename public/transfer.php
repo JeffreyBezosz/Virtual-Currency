@@ -88,6 +88,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tokens sturen | Virtual XD Currency</title>
+    <link rel="stylesheet" href="assets/css/style.css">
     <script src="assets/js/user-search.js" defer></script>
 </head>
 <body>
@@ -95,11 +96,13 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         <h1>Tokens sturen</h1>
 
         <?php if ($successMessage !== ''): ?>
-            <p><?= htmlspecialchars($successMessage, ENT_QUOTES, 'UTF-8') ?></p>
+            <p class="message message--success">
+                <?= htmlspecialchars($successMessage, ENT_QUOTES, 'UTF-8') ?>
+            </p>
         <?php endif; ?>
 
         <?php if (!empty($errors)): ?>
-            <ul>
+            <ul class="messages messages--error">
                 <?php foreach ($errors as $error): ?>
                     <li><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></li>
                 <?php endforeach; ?>

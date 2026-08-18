@@ -37,17 +37,20 @@ if (!file_exists($configPath)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transacties | Virtual XD Currency</title>
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
     <main>
         <h1>Mijn transacties</h1>
 
         <?php if ($error !== ''): ?>
-            <p><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></p>
+            <p class="message message--error">
+                <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?>
+            </p>
         <?php elseif (empty($transactions)): ?>
-            <p>Je hebt nog geen transacties.</p>
+            <p class="message">Je hebt nog geen transacties.</p>
         <?php else: ?>
-            <ul>
+            <ul class="transaction-list">
                 <?php foreach ($transactions as $transaction): ?>
                     <?php
                     $isSent = (int) $transaction['sender_id'] === $userId;

@@ -43,6 +43,7 @@ if (!file_exists($configPath)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Virtual XD Currency</title>
+    <link rel="stylesheet" href="assets/css/style.css">
     <script src="assets/js/balance.js" defer></script>
 </head>
 <body>
@@ -51,22 +52,28 @@ if (!file_exists($configPath)) {
         <p>Je bent ingelogd.</p>
 
         <?php if ($error !== ''): ?>
-            <p><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></p>
+            <p class="message message--error">
+                <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?>
+            </p>
         <?php elseif ($balance !== null): ?>
-            <p>Je saldo: <strong id="balance"><?= (int) $balance ?></strong> tokens</p>
+            <p class="balance">
+                Je saldo: <strong id="balance"><?= (int) $balance ?></strong> tokens
+            </p>
         <?php endif; ?>
 
-        <a href="transfer.php">Tokens sturen</a>
-        <a href="transactions.php">Mijn transacties</a>
-        <form method="post" action="logout.php">
-            <input
-                type="hidden"
-                name="csrf_token"
-                value="<?= htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8') ?>"
-            >
-            <button type="submit">Uitloggen</button>
-        </form>
-        <a href="index.php">Startpagina</a>
+        <nav>
+            <a href="transfer.php">Tokens sturen</a>
+            <a href="transactions.php">Mijn transacties</a>
+            <a href="index.php">Startpagina</a>
+            <form method="post" action="logout.php">
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="<?= htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8') ?>"
+                >
+                <button type="submit">Uitloggen</button>
+            </form>
+        </nav>
     </main>
 </body>
 </html>

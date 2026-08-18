@@ -53,13 +53,16 @@ if ($transactionId === false || $transactionId === null) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transactiedetails | Virtual XD Currency</title>
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
     <main>
         <h1>Transactiedetails</h1>
 
         <?php if ($error !== ''): ?>
-            <p><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></p>
+            <p class="message message--error">
+                <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?>
+            </p>
         <?php elseif ($transaction !== null): ?>
             <dl>
                 <dt>Afzender</dt>
