@@ -59,6 +59,36 @@ class User
         return true;
     }
 
+    public function findById(int $id): bool
+    {
+        $statement = $this->connection->prepare(
+            'SELECT id, first_name, last_name, email, password, balance, created_at
+             FROM users
+             WHERE id = :id
+             LIMIT 1'
+        );
+
+        $statement->execute([
+            'id' => $id,
+        ]);
+
+        $userData = $statement->fetch();
+
+        if ($userData === false) {
+            return false;
+        }
+
+        $this->id = (int) $userData['id'];
+        $this->firstName = $userData['first_name'];
+        $this->lastName = $userData['last_name'];
+        $this->email = $userData['email'];
+        $this->passwordHash = $userData['password'];
+        $this->balance = (int) $userData['balance'];
+        $this->createdAt = $userData['created_at'];
+
+        return true;
+    }
+
     public function search(string $query, int $excludedUserId): array
     {
         if (strlen($query) < 2) {
