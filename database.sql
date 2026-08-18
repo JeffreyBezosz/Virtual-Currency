@@ -1,10 +1,7 @@
-CREATE DATABASE IF NOT EXISTS virtual_currency
-    CHARACTER SET utf8mb4
-    COLLATE utf8mb4_unicode_ci;
+-- Selecteer eerst de juiste database en voer daarna dit bestand uit.
+-- Zo werkt hetzelfde schema lokaal en op shared hosting.
 
-USE virtual_currency;
-
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
@@ -14,7 +11,7 @@ CREATE TABLE users (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
-CREATE TABLE transactions (
+CREATE TABLE IF NOT EXISTS transactions (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     sender_id INT UNSIGNED NOT NULL,
     receiver_id INT UNSIGNED NOT NULL,
