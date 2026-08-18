@@ -41,6 +41,36 @@ class Transaction
         }
     }
 
+    public function getHistoryForUser(int $userId): array
+    {
+        $statement = $this->connection->prepare(
+            'SELECT
+                transactions.id,
+                transactions.sender_id,
+                transactions.receiver_id,
+                transactions.amount,
+                transactions.reason,
+                transactions.created_at,
+                sender.first_name AS sender_first_name,
+                sender.last_name AS sender_last_name,
+                receiver.first_name AS receiver_first_name,
+                receiver.last_name AS receiver_last_name
+             FROM transactions
+             INNER JOIN users AS sender ON transactions.sender_id = sender.id
+             INNER JOIN users AS receiver ON transactions.receiver_id = receiver.id
+             WHERE transactions.sender_id = :sender_user_id
+                OR transactions.receiver_id = :receiver_user_id
+             ORDER BY transactions.created_at DESC, transactions.id DESC'
+        );
+
+        $statement->execute([
+            'sender_user_id' => $userId,
+            'receiver_user_id' => $userId,
+        ]);
+
+        return $statement->fetchAll();
+    }
+
     private function validateTransferData(): void
     {
         if ($this->senderId === null || $this->receiverId === null) {

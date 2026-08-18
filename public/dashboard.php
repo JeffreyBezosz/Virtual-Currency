@@ -15,6 +15,8 @@ requireLogin();
     <main>
         <h1>Dashboard</h1>
         <p>Je bent ingelogd.</p>
+        <a href="transfer.php">Tokens sturen</a>
+        <a href="transactions.php">Mijn transacties</a>
         <a href="logout.php">Uitloggen</a>
     </main>
 </body>
