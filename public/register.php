@@ -2,7 +2,9 @@
 
 require_once dirname(__DIR__) . '/app/Database.php';
 require_once dirname(__DIR__) . '/app/User.php';
+require_once dirname(__DIR__) . '/app/csrf.php';
 
+$csrfToken = getCsrfToken();
 $firstName = '';
 $lastName = '';
 $email = '';
@@ -14,6 +16,10 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     $lastName = trim($_POST['last_name'] ?? '');
     $email = strtolower(trim($_POST['email'] ?? ''));
     $password = $_POST['password'] ?? '';
+
+    if (!isValidCsrfToken($_POST['csrf_token'] ?? null)) {
+        $errors[] = 'De aanvraag is niet geldig. Vernieuw de pagina en probeer opnieuw.';
+    }
 
     if ($firstName === '') {
         $errors[] = 'Vul je voornaam in.';
@@ -104,6 +110,12 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         <?php endif; ?>
 
         <form method="post">
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="<?= htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8') ?>"
+            >
+
             <div>
                 <label for="first_name">Voornaam</label>
                 <input

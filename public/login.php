@@ -4,7 +4,9 @@ session_start();
 
 require_once dirname(__DIR__) . '/app/Database.php';
 require_once dirname(__DIR__) . '/app/User.php';
+require_once dirname(__DIR__) . '/app/csrf.php';
 
+$csrfToken = getCsrfToken();
 $email = '';
 $error = '';
 
@@ -17,7 +19,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     $email = strtolower(trim($_POST['email'] ?? ''));
     $password = $_POST['password'] ?? '';
 
-    if ($email === '' || $password === '') {
+    if (!isValidCsrfToken($_POST['csrf_token'] ?? null)) {
+        $error = 'De aanvraag is niet geldig. Vernieuw de pagina en probeer opnieuw.';
+    } elseif ($email === '' || $password === '') {
         $error = 'Vul je e-mailadres en wachtwoord in.';
     } else {
         $configPath = dirname(__DIR__) . '/config.php';
@@ -70,6 +74,12 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         <?php endif; ?>
 
         <form method="post">
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="<?= htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8') ?>"
+            >
+
             <div>
                 <label for="email">E-mailadres</label>
                 <input
