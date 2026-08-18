@@ -1,52 +1,68 @@
 # Virtual XD Currency
 
-Een eenvoudige PHP-applicatie waarmee studenten een account kunnen maken, inloggen en tokens naar elkaar kunnen sturen.
+Virtual XD Currency is een eenvoudige webapplicatie waarmee studenten tokens naar elkaar kunnen sturen.
 
-## Benodigdheden
+## Functionaliteiten
 
-- PHP 7.4 of nieuwer met de PDO MySQL-extensie
-- MySQL of MariaDB
-- Een browser
-- DBeaver voor het uitvoeren en bekijken van de database
+- [x] Registreren met een `@student.thomasmore.be` e-mailadres
+- [x] Inloggen en veilig uitloggen
+- [x] Nieuwe gebruiker start met 10 tokens
+- [x] Huidig saldo bekijken
+- [x] Andere gebruikers zoeken op naam of e-mail
+- [x] Gebruikers zoeken zonder page refresh met `fetch()`
+- [x] Tokens versturen met een reden
+- [x] Saldo van afzender en ontvanger aanpassen
+- [x] Ontvangen en verstuurde transacties bekijken
+- [x] Details van één transactie bekijken
+- [x] Saldo automatisch vernieuwen met `fetch()`
 
-## Lokaal instellen
+## Technische vereisten
 
-1. Installeer bijvoorbeeld XAMPP als PHP en MySQL nog niet op je computer staan.
-2. Start Apache en MySQL via XAMPP.
-3. Open `database.sql` in DBeaver en voer het volledige script uit.
-4. Kopieer `config.example.php` naar `config.php`.
-5. Vul in `config.php` je lokale databasegegevens in.
+- [x] PHP zonder framework
+- [x] MySQL/MariaDB met tabellen `users` en `transactions`
+- [x] PDO met prepared statements
+- [x] OOP met de classes `Database`, `User` en `Transaction`
+- [x] SQL-query's staan alleen in de backendclasses
+- [x] PHP sessions voor authenticatie
+- [x] HTML, gewone CSS en JavaScript
+- [x] Databasebestand aanwezig in `database.sql`
+- [x] Voorbeeldconfiguratie aanwezig in `config.example.php`
+- [x] Echte databaseconfiguratie uitgesloten via `.gitignore`
 
-De echte `config.php` staat in `.gitignore` en komt dus niet op GitHub.
+## Beveiliging
 
-## Applicatie starten
+- [x] Wachtwoorden gehasht met `password_hash()`
+- [x] Wachtwoorden gecontroleerd met `password_verify()`
+- [x] Bescherming tegen SQL-injection met prepared statements
+- [x] Uitvoer beschermd tegen XSS met `htmlspecialchars()`
+- [x] Formulieren beschermd met CSRF-tokens
+- [x] Beveiligde pagina's alleen toegankelijk na inloggen
+- [x] Transfers uitgevoerd met een database transaction
+- [x] Alleen betrokken gebruikers kunnen transactiedetails bekijken
 
-Open een terminal in de projectmap en voer uit:
+## Belangrijkste validaties
 
-```text
-php -S localhost:8000 -t public
-```
+- [x] Alleen geldige studentenmailadressen
+- [x] Wachtwoord van minstens 5 tekens
+- [x] Geen dubbele e-mailadressen
+- [x] Ontvanger moet bestaan
+- [x] Geen tokens naar jezelf sturen
+- [x] Minstens 1 token versturen
+- [x] Geen hoger bedrag dan het beschikbare saldo
+- [x] Reden is verplicht
 
-Als je XAMPP gebruikt en `php` niet herkend wordt, gebruik dan:
+## Projectlinks
 
-```text
-C:\xampp\php\php.exe -S localhost:8000 -t public
-```
+**Online URL:** nog toe te voegen na deployment
 
-Open daarna `http://localhost:8000` in je browser.
+**GitHub:** [github.com/JeffreyBezosz/Virtual-Currency](https://github.com/JeffreyBezosz/Virtual-Currency)
 
-## Handmatig testen
+## Status voor indienen
 
-Gebruik minstens twee verschillende studentenaccounts.
-
-1. Registreer een account met een adres dat eindigt op `@student.thomasmore.be`.
-2. Controleer in DBeaver dat het account 10 tokens heeft en het wachtwoord gehasht is.
-3. Test een dubbel e-mailadres, een fout domein en een te kort wachtwoord.
-4. Login met een juist en een fout wachtwoord.
-5. Controleer dat het dashboard zonder login niet bereikbaar is.
-6. Stuur tokens naar het tweede account.
-7. Test ook bedrag 0, een negatief bedrag, te weinig saldo en een transfer naar jezelf.
-8. Controleer in DBeaver dat beide saldo's en het transactierecord juist zijn.
-9. Bekijk de transactiegeschiedenis bij beide accounts.
-10. Open de transactiedetails en probeer als derde gebruiker hetzelfde transactie-ID te openen.
-11. Log uit en controleer dat beveiligde pagina's opnieuw naar de login sturen.
+- [x] Verplichte functionaliteiten lokaal getest
+- [x] Databasewerking gecontroleerd
+- [x] PHP-bestanden gecontroleerd op syntaxfouten
+- [x] Geen databasewachtwoord opgeslagen in Git
+- [ ] Applicatie online zetten
+- [ ] Online URL hierboven invullen
+- [ ] Definitieve werking online controleren
