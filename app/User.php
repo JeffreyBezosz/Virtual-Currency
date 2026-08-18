@@ -59,6 +59,36 @@ class User
         return true;
     }
 
+    public function search(string $query, int $excludedUserId): array
+    {
+        if (strlen($query) < 2) {
+            return [];
+        }
+
+        $searchTerm = '%' . $query . '%';
+        $statement = $this->connection->prepare(
+            'SELECT id, first_name, last_name, email
+             FROM users
+             WHERE id != :excluded_user_id
+               AND (
+                    first_name LIKE :first_name
+                    OR last_name LIKE :last_name
+                    OR email LIKE :email
+               )
+             ORDER BY first_name, last_name
+             LIMIT 10'
+        );
+
+        $statement->execute([
+            'excluded_user_id' => $excludedUserId,
+            'first_name' => $searchTerm,
+            'last_name' => $searchTerm,
+            'email' => $searchTerm,
+        ]);
+
+        return $statement->fetchAll();
+    }
+
     public function create(): bool
     {
         $statement = $this->connection->prepare(

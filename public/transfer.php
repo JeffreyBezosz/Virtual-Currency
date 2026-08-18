@@ -82,6 +82,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tokens sturen | Virtual XD Currency</title>
+    <script src="assets/js/user-search.js" defer></script>
 </head>
 <body>
     <main>
@@ -101,9 +102,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
 
         <form method="post">
             <div>
-                <label for="receiver_email">E-mailadres ontvanger</label>
+                <label for="receiver_email">Zoek ontvanger op naam of e-mail</label>
                 <input
-                    type="email"
+                    type="text"
                     id="receiver_email"
                     name="receiver_email"
                     value="<?= htmlspecialchars($receiverEmail, ENT_QUOTES, 'UTF-8') ?>"
@@ -111,6 +112,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
                     maxlength="255"
                     required
                 >
+                <ul id="user_results" aria-live="polite"></ul>
             </div>
 
             <div>
