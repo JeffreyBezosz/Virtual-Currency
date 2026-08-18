@@ -1,7 +1,9 @@
 <?php
 
-require_once dirname(__DIR__) . '/app/Database.php';
-require_once dirname(__DIR__) . '/app/User.php';
+use App\Database;
+use App\User;
+
+require_once dirname(__DIR__) . '/app/autoload.php';
 require_once dirname(__DIR__) . '/app/csrf.php';
 
 $csrfToken = getCsrfToken();

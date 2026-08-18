@@ -1,8 +1,12 @@
 <?php
 
+use App\Database;
+use App\User;
+
 $projectPath = dirname(__DIR__, 2);
 
 require_once $projectPath . '/app/session.php';
+require_once $projectPath . '/app/autoload.php';
 
 startSecureSession();
 
@@ -21,9 +25,6 @@ if (!file_exists($configPath)) {
     echo json_encode(['error' => 'De applicatie is nog niet volledig ingesteld.']);
     exit;
 }
-
-require_once $projectPath . '/app/Database.php';
-require_once $projectPath . '/app/User.php';
 
 $config = require $configPath;
 

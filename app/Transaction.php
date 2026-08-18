@@ -1,5 +1,11 @@
 <?php
 
+namespace App;
+
+use InvalidArgumentException;
+use PDO;
+use Throwable;
+
 class Transaction
 {
     private PDO $connection;

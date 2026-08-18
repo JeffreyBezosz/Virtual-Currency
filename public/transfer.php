@@ -1,10 +1,12 @@
 <?php
 
+use App\Database;
+use App\Transaction;
+use App\User;
+
 require_once dirname(__DIR__) . '/app/auth.php';
 require_once dirname(__DIR__) . '/app/csrf.php';
-require_once dirname(__DIR__) . '/app/Database.php';
-require_once dirname(__DIR__) . '/app/User.php';
-require_once dirname(__DIR__) . '/app/Transaction.php';
+require_once dirname(__DIR__) . '/app/autoload.php';
 
 requireLogin();
 
