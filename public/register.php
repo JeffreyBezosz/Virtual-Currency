@@ -72,7 +72,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
                     $user->setFirstName($firstName);
                     $user->setLastName($lastName);
                     $user->setEmail($email);
-                    $user->setPasswordHash(password_hash($password, PASSWORD_DEFAULT));
+                    $user->setPasswordHash(password_hash($password, PASSWORD_BCRYPT));
 
                     if ($user->create()) {
                         $successMessage = 'Je account is aangemaakt.';
