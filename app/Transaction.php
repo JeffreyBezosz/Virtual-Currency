@@ -71,6 +71,48 @@ class Transaction
         return $statement->fetchAll();
     }
 
+    public function findForUser(int $transactionId, int $userId): ?array
+    {
+        $statement = $this->connection->prepare(
+            'SELECT
+                transactions.id,
+                transactions.sender_id,
+                transactions.receiver_id,
+                transactions.amount,
+                transactions.reason,
+                transactions.created_at,
+                sender.first_name AS sender_first_name,
+                sender.last_name AS sender_last_name,
+                sender.email AS sender_email,
+                receiver.first_name AS receiver_first_name,
+                receiver.last_name AS receiver_last_name,
+                receiver.email AS receiver_email
+             FROM transactions
+             INNER JOIN users AS sender ON transactions.sender_id = sender.id
+             INNER JOIN users AS receiver ON transactions.receiver_id = receiver.id
+             WHERE transactions.id = :transaction_id
+               AND (
+                    transactions.sender_id = :sender_user_id
+                    OR transactions.receiver_id = :receiver_user_id
+               )
+             LIMIT 1'
+        );
+
+        $statement->execute([
+            'transaction_id' => $transactionId,
+            'sender_user_id' => $userId,
+            'receiver_user_id' => $userId,
+        ]);
+
+        $transaction = $statement->fetch();
+
+        if ($transaction === false) {
+            return null;
+        }
+
+        return $transaction;
+    }
+
     private function validateTransferData(): void
     {
         if ($this->senderId === null || $this->receiverId === null) {

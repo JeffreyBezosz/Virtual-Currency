@@ -80,6 +80,9 @@ if (!file_exists($configPath)) {
                         <time>
                             <?= htmlspecialchars($transaction['created_at'], ENT_QUOTES, 'UTF-8') ?>
                         </time>
+                        <a href="transaction.php?id=<?= (int) $transaction['id'] ?>">
+                            Details bekijken
+                        </a>
                     </li>
                 <?php endforeach; ?>
             </ul>

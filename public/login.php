@@ -96,6 +96,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
 
             <button type="submit">Inloggen</button>
         </form>
+
+        <p>Nog geen account? <a href="register.php">Registreer je hier</a>.</p>
+        <a href="index.php">Terug naar de startpagina</a>
     </main>
 </body>
 </html>

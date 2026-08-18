@@ -157,6 +157,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
 
             <button type="submit">Registreren</button>
         </form>
+
+        <p>Heb je al een account? <a href="login.php">Log dan in</a>.</p>
+        <a href="index.php">Terug naar de startpagina</a>
     </main>
 </body>
 </html>

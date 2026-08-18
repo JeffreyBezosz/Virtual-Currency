@@ -18,6 +18,7 @@ requireLogin();
         <a href="transfer.php">Tokens sturen</a>
         <a href="transactions.php">Mijn transacties</a>
         <a href="logout.php">Uitloggen</a>
+        <a href="index.php">Startpagina</a>
     </main>
 </body>
 </html>
