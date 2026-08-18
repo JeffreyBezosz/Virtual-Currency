@@ -1,12 +1,14 @@
 <?php
 
 require_once dirname(__DIR__) . '/app/auth.php';
+require_once dirname(__DIR__) . '/app/csrf.php';
 require_once dirname(__DIR__) . '/app/Database.php';
 require_once dirname(__DIR__) . '/app/User.php';
 require_once dirname(__DIR__) . '/app/Transaction.php';
 
 requireLogin();
 
+$csrfToken = getCsrfToken();
 $receiverEmail = '';
 $amountInput = '';
 $reason = '';
@@ -18,6 +20,10 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     $amountInput = trim($_POST['amount'] ?? '');
     $reason = trim($_POST['reason'] ?? '');
     $amount = filter_var($amountInput, FILTER_VALIDATE_INT);
+
+    if (!isValidCsrfToken($_POST['csrf_token'] ?? null)) {
+        $errors[] = 'De aanvraag is niet geldig. Vernieuw de pagina en probeer opnieuw.';
+    }
 
     if (!filter_var($receiverEmail, FILTER_VALIDATE_EMAIL)) {
         $errors[] = 'Vul een geldig e-mailadres van de ontvanger in.';
@@ -101,6 +107,12 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         <?php endif; ?>
 
         <form method="post">
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="<?= htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8') ?>"
+            >
+
             <div>
                 <label for="receiver_email">Zoek ontvanger op naam of e-mail</label>
                 <input
